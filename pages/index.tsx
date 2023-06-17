@@ -1,9 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { useRef, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
-import DropDown, { VibeType } from "../components/DropDown";
+import DropDown from "../components/DropDown";
+import { vibes, langs } from "../utils/options";
+import type { VibeType, LangType } from "../utils/options";
 import Footer from "../components/Footer";
 import Github from "../components/GitHub";
 import Header from "../components/Header";
@@ -18,6 +19,7 @@ const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [bio, setBio] = useState("");
   const [vibe, setVibe] = useState<VibeType>("Professional");
+  const [lang, setLang] = useState<LangType>("Japanese🇯🇵");
   const [generatedBios, setGeneratedBios] = useState<String>("");
 
   const bioRef = useRef<null | HTMLDivElement>(null);
@@ -28,7 +30,7 @@ const Home: NextPage = () => {
     }
   };
 
-  const prompt = `Generate 2 ${vibe} twitter biographies with no hashtags and clearly labeled "1." and "2.". ${
+  const prompt = `Generate 2 ${vibe} twitter biographies with no hashtags and clearly labeled "1." and "2." in ${lang}. ${
     vibe === "Funny"
       ? "Make sure there is a joke in there and it's a little ridiculous."
       : null
@@ -65,13 +67,13 @@ const Home: NextPage = () => {
       if (event.type === "event") {
         const data = event.data;
         try {
-          const text = JSON.parse(data).text ?? ""
+          const text = JSON.parse(data).text ?? "";
           setGeneratedBios((prev) => prev + text);
         } catch (e) {
           console.error(e);
         }
       }
-    }
+    };
 
     // https://web.dev/streams/#the-getreader-and-read-methods
     const reader = data.getReader();
@@ -99,12 +101,12 @@ const Home: NextPage = () => {
       <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-12 sm:mt-20">
         <a
           className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-gray-300 bg-white px-4 py-2 text-sm text-gray-600 shadow-md transition-colors hover:bg-gray-100 mb-5"
-          href="https://github.com/Nutlope/twitterbio"
+          href="https://github.com/naru20181117/GPT-trial"
           target="_blank"
           rel="noopener noreferrer"
         >
           <Github />
-          <p>Star on GitHub</p>
+          <p>Check on GitHub</p>
         </a>
         <h1 className="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900">
           Generate your next Twitter bio using chatGPT
@@ -112,13 +114,7 @@ const Home: NextPage = () => {
         <p className="text-slate-500 mt-5">47,118 bios generated so far.</p>
         <div className="max-w-xl w-full">
           <div className="flex mt-10 items-center space-x-3">
-            <Image
-              src="/1-black.png"
-              width={30}
-              height={30}
-              alt="1 icon"
-              className="mb-5 sm:mb-0"
-            />
+            <h2 className="font-black text-3xl">1.</h2>
             <p className="text-left font-medium">
               Copy your current bio{" "}
               <span className="text-slate-500">
@@ -133,15 +129,31 @@ const Home: NextPage = () => {
             rows={4}
             className="w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black my-5"
             placeholder={
-              "e.g. Senior Developer Advocate @vercel. Tweeting about web development, AI, and React / Next.js. Writing nutlope.substack.com."
+              "e.g. アイデアとエンジニアのマッチングアプリ #ideee の制作者 / フリーランスエンジニア #Ruby #React #ChatGPT / Techコミュニティ運営 / #とにほめLT会 主催 / 世の中の「もったいない」をITの力で無くすためサービスづくり中🚀"
             }
           />
           <div className="flex mb-5 items-center space-x-3">
-            <Image src="/2-black.png" width={30} height={30} alt="1 icon" />
+            <h2 className="font-black text-3xl">2.</h2>
             <p className="text-left font-medium">Select your vibe.</p>
           </div>
           <div className="block">
-            <DropDown vibe={vibe} setVibe={(newVibe) => setVibe(newVibe)} />
+            <DropDown
+              value={vibe}
+              setValue={(newVibe) => setVibe(newVibe)}
+              options={vibes}
+            />
+          </div>
+
+          <div className="flex my-5 items-center space-x-3">
+            <h2 className="font-black text-3xl">3.</h2>
+            <p className="text-left font-medium">Select your language.</p>
+          </div>
+          <div className="block">
+            <DropDown
+              value={lang}
+              setValue={(newLang) => setLang(newLang)}
+              options={langs}
+            />
           </div>
 
           {!loading && (
