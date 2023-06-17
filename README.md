@@ -22,7 +22,7 @@ yarn dev
 
 ```bash
 # lint
-yarn lint && yarn format && yarn format-check
+yarn lint && yarn format && yarn format-check && yarn type-check
 ```
 
 ## One-Click Deploy
