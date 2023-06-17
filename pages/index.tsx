@@ -19,7 +19,7 @@ const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [bio, setBio] = useState("");
   const [vibe, setVibe] = useState<VibeType>("Professional");
-  const [lang, setLang] = useState<LangType>("Japanese🇯🇵");
+  const [lang, setLang] = useState<LangType>("🇯🇵　Japanese");
   const [generatedBios, setGeneratedBios] = useState<String>("");
 
   const bioRef = useRef<null | HTMLDivElement>(null);
@@ -111,7 +111,6 @@ const Home: NextPage = () => {
         <h1 className="sm:text-6xl text-4xl max-w-[708px] font-bold text-slate-900">
           Generate your next Twitter bio using chatGPT
         </h1>
-        <p className="text-slate-500 mt-5">47,118 bios generated so far.</p>
         <div className="max-w-xl w-full">
           <div className="flex mt-10 items-center space-x-3">
             <h2 className="font-black text-3xl">1.</h2>
